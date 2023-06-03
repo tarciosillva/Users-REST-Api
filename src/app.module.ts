@@ -3,11 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseConfigService } from './database/mongoose-config';
 
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb+srv://tarciosillva7:DCiweAUQYBEqJOU9@cluster0.mpeb4ru.mongodb.net/?retryWrites=true&w=majority'),
+    MongooseModule.forRootAsync({
+      useClass: MongooseConfigService,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
