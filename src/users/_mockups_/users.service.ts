@@ -57,17 +57,7 @@ export class UsersServiceMock {
     }
     
     async update(id: string, updateUserDto: UpdateUserDto) {
-        var user = [userStub].find((user => user._id === id))
-        var result: UserInterface
-        if (user) {
-            result = {
-                _id: user._id,
-                cpf: updateUserDto.cpf,
-                nome: updateUserDto.nome,
-                sobrenome: updateUserDto.sobrenome,
-                telefone: updateUserDto.telefone
-            }
-        }
+        var result = [userStub].find((user => user._id === id))
 
         if (!result) {
             return {
@@ -77,7 +67,7 @@ export class UsersServiceMock {
         }
 
         return {
-            result,
+            result:{_id:userStub._id, ...updateUserDto},
             success: true,
         }
     }
