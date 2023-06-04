@@ -71,7 +71,7 @@ export class UsersService {
     }
 
     return {
-      result,
+      result:updateUserDto,
       success: true,
     }
   }
