@@ -4,41 +4,12 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
-/* 
-const newUser = new User({ nome: 'Tarcio', sobrenome: 'Sousa', cpf: '04157000277', telefone: '(94)984097406' }) */
+import { createUserDto } from './_mockups_/createUserDto';
+import { userStub } from './stubs/user.stub';
 
 describe('UsersController', () => {
   let controller: UsersController;
   let service: UsersService;
-
-  const body: CreateUserDto = {
-    nome: 'Tarcio',
-    sobrenome: 'Sousa',
-    cpf: '04157000277',
-    telefone: '(94)984097406'
-  }
-
-  const mockUser: User = {
-    nome: 'Tarcio',
-    sobrenome: 'Sousa',
-    cpf: '04157000277',
-    telefone: '(94)984097406'
-  }
-
-  const mockUsers: User[] = [
-    {
-      nome: 'Tarcio',
-      sobrenome: 'Sousa',
-      cpf: '04157000277',
-      telefone: '(94)984097406'
-    },
-    {
-      nome: 'Ana',
-      sobrenome: 'Sousa',
-      cpf: '03058265488',
-      telefone: '(94)984157011'
-    }
-  ]
 
   const mockUpdateUser: UpdateUserDto = {
     nome: 'Tarcio',
@@ -55,9 +26,9 @@ describe('UsersController', () => {
           provide: UsersService,
           useValue: {
             create: jest.fn().mockResolvedValue({ success: true }),
-            findAll: jest.fn().mockResolvedValue({ ...mockUsers, success: true }),
-            findOne: jest.fn().mockResolvedValue({ ...mockUser, success: true }),
-            update: jest.fn().mockResolvedValue({ ...mockUpdateUser, success: true }),
+            findAll: jest.fn().mockResolvedValue({ result: [userStub, userStub], success: true }),
+            findOne: jest.fn().mockResolvedValue({ result: userStub, success: true }),
+            update: jest.fn().mockResolvedValue({ result: { _id: '123', ...mockUpdateUser }, success: true }),
             remove: jest.fn().mockResolvedValue({ success: true })
           }
         }
@@ -74,8 +45,8 @@ describe('UsersController', () => {
   });
 
   describe('create', () => {
-    it('success create a new user', async () => {
-      const result = await controller.create(body)
+    it('should create a new user', async () => {
+      const result = await controller.create(createUserDto)
       const showResult = {
         success: true
       }
@@ -83,49 +54,49 @@ describe('UsersController', () => {
       expect(result).toEqual(showResult)
     })
 
-    it('invalid CPF', async () => {
+    it('should return invalid cpf', async () => {
       const expectedResult = { success: false, msg: 'CPF inválido.' };
       const createSpy = jest.spyOn(service, 'create').mockResolvedValueOnce(Promise.resolve(expectedResult));
-      const result = await controller.create(body);
-      expect(createSpy).toHaveBeenCalledWith(body);
+      const result = await controller.create(createUserDto);
+      expect(createSpy).toHaveBeenCalledWith(createUserDto);
       expect(result).toEqual(expectedResult);
     });
 
-    it('invalid phone', async () => {
+    it('should return invalid phone', async () => {
       const expectedResult = { success: false, msg: 'Telefone inválido.' };
       const createSpy = jest.spyOn(service, 'create').mockResolvedValueOnce(Promise.resolve(expectedResult));
-      const result = await controller.create(body);
-      expect(createSpy).toHaveBeenCalledWith(body);
+      const result = await controller.create(createUserDto);
+      expect(createSpy).toHaveBeenCalledWith(createUserDto);
       expect(result).toEqual(expectedResult);
     });
   })
 
   describe('findOne', () => {
-    it('shold a user', async () => {
-      const expectedValue = { ...mockUser, success: true }
-      const result = await controller.findOne(mockUser.cpf)
+    it('should return one user', async () => {
+      const expectedValue = { result: userStub, success: true }
+      const result = await controller.findOne(userStub.cpf)
       expect(service.findOne).toHaveBeenCalled();
       expect(result).toEqual(expectedValue)
     })
 
-    it('user not found', async () => {
+    it('should return message error by find user', async () => {
       const expectedResult = { success: false, msg: 'Informações de CPF não armazenadas.' };
       const createSpy = jest.spyOn(service, 'findOne').mockResolvedValueOnce(Promise.resolve(expectedResult));
-      const result = await controller.findOne(mockUser.cpf);
-      expect(createSpy).toHaveBeenCalledWith(mockUser.cpf);
+      const result = await controller.findOne(userStub.cpf);
+      expect(createSpy).toHaveBeenCalledWith(userStub.cpf);
       expect(result).toEqual(expectedResult);
     });
   })
 
   describe('findAll', () => {
-    it('shold all users', async () => {
-      const expectedValue = { ...mockUsers, success: true }
+    it('should return all users', async () => {
+      const expectedValue = { result: [userStub, userStub], success: true }
       const result = await controller.findAll();
       expect(service.findAll).toHaveBeenCalled();
       expect(result).toEqual(expectedValue);
     })
 
-    it('shold error', async () => {
+    it('should return message error by list all users', async () => {
       const expectedResult = { success: false, msg: 'Não há usuários cadastrados' };
       const createSpy = jest.spyOn(service, 'findAll').mockResolvedValueOnce(Promise.resolve(expectedResult));
       const result = await controller.findAll();
@@ -135,34 +106,34 @@ describe('UsersController', () => {
   })
 
   describe('update', () => {
-    it('update a user', async () => {
-      const expectedValue = { ...mockUpdateUser, success: true }
-      const result = await controller.update("63572ab3e86402d0bbfcb46c", mockUpdateUser);
-      expect(service.update).toHaveBeenCalledWith("63572ab3e86402d0bbfcb46c", mockUpdateUser);
+    it('should update a user', async () => {
+      const expectedValue = { result: { _id: '123', ...mockUpdateUser }, success: true }
+      const result = await controller.update(userStub._id, mockUpdateUser);
+      expect(service.update).toHaveBeenCalledWith(userStub._id, mockUpdateUser);
       expect(result).toEqual(expectedValue)
     })
 
-    it('user not updated', async () => {
+    it('should return message error to update a user', async () => {
       const expectedResult = { success: false, msg: 'Usuário inválido.' };
       const createSpy = jest.spyOn(service, 'update').mockResolvedValueOnce(Promise.resolve(expectedResult));
-      const result = await controller.update("63572ab3e86402d0bbfcb46c", mockUpdateUser);
-      expect(createSpy).toHaveBeenCalledWith("63572ab3e86402d0bbfcb46c", mockUpdateUser);
+      const result = await controller.update(userStub._id, mockUpdateUser);
+      expect(createSpy).toHaveBeenCalledWith(userStub._id, mockUpdateUser);
       expect(result).toEqual(expectedResult);
     });
   })
 
   describe('delete', () => {
-    it('delete a user', async () => {
-      const result = await controller.remove("63572ab3e86402d0bbfcb46c");
-      expect(service.remove).toHaveBeenCalledWith("63572ab3e86402d0bbfcb46c");
+    it('should delete a user', async () => {
+      const result = await controller.remove(userStub._id);
+      expect(service.remove).toHaveBeenCalledWith(userStub._id);
       expect(result).toEqual({ success: true })
     })
 
-    it('user not deleted', async () => {
+    it('should return message error to delete a user', async () => {
       const expectedResult = { success: false, msg: 'Usuário inválido.' };
       const createSpy = jest.spyOn(service, 'remove').mockResolvedValueOnce(Promise.resolve(expectedResult));
-      const result = await controller.remove("63572ab3e86402d0bbfcb46c");
-      expect(createSpy).toHaveBeenCalledWith("63572ab3e86402d0bbfcb46c");
+      const result = await controller.remove(userStub._id);
+      expect(createSpy).toHaveBeenCalledWith(userStub._id);
       expect(result).toEqual(expectedResult);
     });
   })
