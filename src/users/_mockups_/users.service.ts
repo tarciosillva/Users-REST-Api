@@ -1,6 +1,5 @@
 import { CreateUserDto } from "../dto/create-user.dto"
 import { UpdateUserDto } from "../dto/update-user.dto"
-import { UserInterface } from "../interface/user-interface"
 import { userStub } from "../stubs/user.stub"
 import { cpfValidation } from "../utils/cpfValidation"
 import { phoneValidation } from "../utils/phoneValidation"

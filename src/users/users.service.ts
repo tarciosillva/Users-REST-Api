@@ -4,8 +4,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { User } from './schemas/user.schema';
+import { AdminUser } from './schemas/admin.schema';
 import { phoneValidation } from './utils/phoneValidation';
 import { cpfValidation } from './utils/cpfValidation';
+import { AdminInterface } from './interface/admin.interface';
 
 @Injectable()
 export class UsersService {
@@ -61,6 +63,16 @@ export class UsersService {
     }
   }
 
+
+  async findAdmin(phone: string): Promise<AdminInterface> {
+    const result = await this.connection.model(AdminUser.name).findOne({ telefone: phone })
+    if (!result) {
+      return
+    }
+
+    return result
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     const result = await this.connection.model(User.name).findByIdAndUpdate({ _id: id }, updateUserDto)
     if (!result) {
@@ -71,7 +83,7 @@ export class UsersService {
     }
 
     return {
-      result:updateUserDto,
+      result: updateUserDto,
       success: true,
     }
   }
