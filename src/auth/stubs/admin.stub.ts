@@ -1,4 +1,4 @@
-import { AdminInterface } from "../interface/adminInterface"
+import { AdminInterface } from "../interface/admin.interface"
 
 export const adminStub: AdminInterface = {
     _id:"123",
