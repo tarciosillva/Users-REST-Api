@@ -1,4 +1,4 @@
-import { UserInterface } from "../interface/user-interface"
+import { UserInterface } from "../interface/user.interface"
 
 export const userStub: UserInterface = {
     _id: '123',
