@@ -36,7 +36,7 @@ describe('UsersService', () => {
         nome: 'Tarcio',
         sobrenome: 'Sousa',
         cpf: '0856488896',
-        telefone: '(94)984097406'
+        telefone: '(94)984125577'
       }
       const expectedResult = { success: false, msg: 'CPF inválido.' };
       const result = await service.create(createUserDtoInvalidCpf)
@@ -93,7 +93,7 @@ describe('UsersService', () => {
       cpf: '04157000277',
       nome: 'Tarcio',
       sobrenome: 'Sillva',
-      telefone: '(94)984097406'
+      telefone: '(94)984125577'
     }
 
     it('should update a user', async () => {
