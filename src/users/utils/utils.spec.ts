@@ -21,7 +21,7 @@ describe('utils cpfValidation',()=>{
     })
 
     it('must return false for a valid cpf ',()=>{
-        const result = cpfValidation('04157089688')
+        const result = cpfValidation('5489632257')
         expect(result).toBe(false)
     })
 })
