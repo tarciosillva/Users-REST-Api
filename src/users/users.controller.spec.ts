@@ -14,8 +14,8 @@ describe('UsersController', () => {
   const mockUpdateUser: UpdateUserDto = {
     nome: 'Tarcio',
     sobrenome: 'Sillva',
-    cpf: '04157000277',
-    telefone: '(94)984097406'
+    cpf: '65485322599',
+    telefone: '(94)984125599'
   }
 
   beforeEach(async () => {
