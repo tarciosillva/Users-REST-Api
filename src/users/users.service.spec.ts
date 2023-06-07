@@ -35,7 +35,7 @@ describe('UsersService', () => {
       const createUserDtoInvalidCpf: CreateUserDto = {
         nome: 'Tarcio',
         sobrenome: 'Sousa',
-        cpf: '04157055966',
+        cpf: '0856488896',
         telefone: '(94)984097406'
       }
       const expectedResult = { success: false, msg: 'CPF inválido.' };
