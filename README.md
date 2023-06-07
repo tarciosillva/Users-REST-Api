@@ -45,17 +45,14 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+## Swagger doc
+`http://localhost:3000/swagger`
+
 ## Test
 
 ```bash
 # unit tests
 $ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
 ```
 
 ## Support
