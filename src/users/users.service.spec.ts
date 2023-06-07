@@ -47,7 +47,7 @@ describe('UsersService', () => {
       const createUserDtoInvalidPhone: CreateUserDto = {
         nome: 'Tarcio',
         sobrenome: 'Sousa',
-        cpf: '04157000277',
+        cpf: '65485322599',
         telefone: '(94)84097406'
       }
       const expectedResult = { success: false, msg: 'Telefone inválido.' };
@@ -90,7 +90,7 @@ describe('UsersService', () => {
 
   describe('update', () => {
     const mockUpdateUser: UpdateUserDto = {
-      cpf: '04157000277',
+      cpf: '65485322599',
       nome: 'Tarcio',
       sobrenome: 'Sillva',
       telefone: '(94)984125577'
