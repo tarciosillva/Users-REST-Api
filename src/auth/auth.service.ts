@@ -11,8 +11,6 @@ export class AuthService {
     ) { }
     async authentication(phone: string, password: string) {
         const user = await this.userService.findAdmin(phone)
-        
-        const isMatchPassword = await bcrypt.compare(password, user.password);
 
         if (!password) {
             throw new UnauthorizedException();
@@ -21,6 +19,8 @@ export class AuthService {
         if (!user) {
             throw new UnauthorizedException();
         }
+
+        const isMatchPassword = await bcrypt.compare(password, user.password);
 
         if (!isMatchPassword) {
             throw new UnauthorizedException();
